@@ -43,7 +43,7 @@ const body = request.body
       return response.status(401).json({ error: 'token missing or invalid' })
     }
 
-    if (body.title === undefined || body.url === undefined) {
+    if (body.title.toString().length === 0 || body.url.toString().length === 0) {
       return response.status(400).json({ error: 'title or url missing' })
     }
 
@@ -89,11 +89,8 @@ blogsRouter.delete('/:id', async (request, response) => {
     const addedUser = await User.findById(blog.user)
 
     const deletingUser = await User.findById(decodedToken.id)
-    console.log(addedUser)
-    console.log(deletingUser)
-    console.log(addedUser._id === deletingUser._id, 'tässä totuus')
 
-    if (addedUser.toString() === deletingUser.toString()) {
+    if (addedUser.toString() === deletingUser.toString() || addedUser.toString().length() === 0) {
       await Blog.findByIdAndRemove(request.params.id)
       response.status(204).end()
     } else {
@@ -108,12 +105,14 @@ blogsRouter.delete('/:id', async (request, response) => {
 
 blogsRouter.put('/:id', async (request, response) => {
   try {
+    /*
     const token = request.token
     const decodedToken = jwt.verify(request.token, process.env.SECRET)
 
     if (!token || !decodedToken.id) {
       return response.status(401).json({ error: 'token missing or invalid' })
     }
+    */
     const body = request.body
 
     const blog = {

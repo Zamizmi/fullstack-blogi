@@ -12,7 +12,6 @@ loginRouter.post('/', async (request, response) => {
     await bcrypt.compare(body.password, user.passwordHash)
 
   if ( !(user && passwordCorrect) ) {
-    console.log('MMMMMMMMMMMMMMMMMIIIIIIIIIIIIIIIIIIIITTTTTTTTTTTTTTTTTTTTTTTÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ!')
     return response.status(401).send({ error: 'invalid username or password' })
   }
 
@@ -22,7 +21,6 @@ loginRouter.post('/', async (request, response) => {
   }
 
   const token = jwt.sign(userForToken, process.env.SECRET)
-  console.log('ONNISTUI AIVAN HELVETIN HYVIN ONNISTUI AIVAN HELVETIN HYVIN ONNISTUI AIVAN HELVETIN HYVIN')
   response.status(200).send({ token, username: user.username, name: user.name })
 })
 
